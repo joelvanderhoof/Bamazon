@@ -72,60 +72,39 @@ var addInventory = () => {
 
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
  var addProduct = () => {
+    inquirer.prompt([
 
- }   
-    
-    
-    
-    
-    
-    
-//     .then(function(choices) {
-//         connection.query("SELECT * FROM products WHERE ?",
-//             {
-//                 product_name: choices.productSelection
-//             },
-//             function(err, res) {
-//                 if (err) throw err;
-
-//                 var orderItem = res[0].item_id;
-//                 var itemPrice = res[0].price;
-//                 var orderQty = parseFloat( choices.productQuantity);
-//                 var stockQty = parseInt(res[0].stock_quantity);
-//                 var orderTotal = itemPrice * orderQty;
-
-//                 console.log("Stock: " + stockQty);
-//                 console.log("productQuantity: " + orderQty);
-
-//                 // Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
-//                 // If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
-//                 if (stockQty < orderQty) {
-//                     console.log('Insuficcient quantity!');
-//                     showStock();
-//                 } else {
-//                 stockQty -= orderQty;
-
-//                 // If your store does have enough of the product, you should fulfill the customer's order.
-//                 // This means updating the SQL database to reflect the remaining quantity.
-//                 connection.query('UPDATE BAMAZON.products SET ? WHERE ?', 
-//                     [{ stock_quantity: stockQty },
-//                         { item_id: orderItem }],
-//                     function(err, res) {
-//                         if (err) throw err;
-//                         console.log('Your order total is $' + orderTotal);
-//                         showStock();
-//                  });
-
-//                 //UPDATE `bamazon`.`products` SET `stock_quantity`='25' WHERE `item_id`='7';
-//                 // Once the update goes through, show the customer the total cost of their purchase.
-
-
-//                 }
-//         });
-//     });
-
-// }
-
+        {
+            type: "input",
+            name: "productName",
+            message: "What is the name of the item to add?"
+        },
+        {
+            type: "input",
+            name: "departmentName",
+            message: "What is the department name of the item to add?"
+        },
+        {
+            type: "input",
+            name: "price",
+            message: "What is the price of the item to add?"
+        },
+        {
+            type: "input",
+            name: "stockQuantity",
+            message: "What is the stock quantity of the item to add?"
+        }
+    ]).then(function(choices) {
+        connection.query("INSERT INTO Bamazon.products SET ?",
+        {
+            product_name: choices.productName,
+            department_name: choices.departmentName,
+            price: choices.price,
+            stock_quantity: choices.stockQuantity
+        });
+        managerOptions();
+    });
+}   
 
 var managerOptions = () => {
     // List a set of menu options:
